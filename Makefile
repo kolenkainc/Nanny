@@ -17,4 +17,4 @@ release-deb:
 
 release-brew:
 	dotnet publish Nanny.Console/Nanny.Console.csproj -c Release --self-contained -r osx.10.12-x64 -o Packaging/brew
-	tar -czvf $(FILENAME).tar.gz Packaging/brew
+	tar -C Packaging/brew -cvf $(FILENAME).tar.gz .
