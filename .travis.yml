@@ -20,7 +20,7 @@ jobs:
         - git config --local user.email $GIT_EMAIL
         - git tag $VERSION
 
-    - stage: Deploy_Debian
+    - stage: Deploy
       language: csharp
       dist: xenial
       mono: none
@@ -37,7 +37,7 @@ jobs:
         file: $PACKAGE_FILENAME
         skip_cleanup: true
 
-    - stage: Deploy_Brew
+    - stage: Deploy
       language: csharp
       dist: xenial
       mono: none
