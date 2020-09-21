@@ -6,6 +6,7 @@ endif
 
 release:
 	make release-deb
+	make release-brew
 
 release-deb:
 	sed -e "s|VERSION|$$VERSION|" ./Packaging/debian/DEBIAN/control.txt > ./Packaging/debian/DEBIAN/control
@@ -16,3 +17,4 @@ release-deb:
 
 release-brew:
 	dotnet publish Nanny.Console/Nanny.Console.csproj -c Release --self-contained -r osx.10.12-x64 -o Packaging/brew
+	tar -czvf $(FILENAME).tar.gz Packaging/brew

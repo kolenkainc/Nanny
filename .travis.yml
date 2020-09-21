@@ -11,7 +11,14 @@ jobs:
       script:
         - dotnet build
 
-    - stage: Deploy
+    - stage: Tag
+      language: minimal
+      script:
+        - git config --local user.name $GIT_USERNAME
+        - git config --local user.email $GIT_EMAIL
+        - git tag $VERSION
+
+    - stage: Deploy_Debian
       language: csharp
       dist: xenial
       mono: none
@@ -21,11 +28,23 @@ jobs:
         - PACKAGE_FILENAME_WITHOUT_EXTENSION=nanny_$VERSION
         - PACKAGE_FILENAME=$PACKAGE_FILENAME_WITHOUT_EXTENSION.deb
       script:
-        - make release
-      before_deploy:
-        - git config --local user.name $GIT_USERNAME
-        - git config --local user.email $GIT_EMAIL
-        - git tag $VERSION
+        - make release-deb
+      deploy:
+        provider: releases
+        api_key: $GITHUB_OAUTH_TOKEN
+        file: $PACKAGE_FILENAME
+        skip_cleanup: true
+
+    - stage: Deploy_Brew
+      language: csharp
+      dist: xenial
+      mono: none
+      dotnet: 3.1
+      env:
+        - VERSION=1.0.0.$TRAVIS_BUILD_NUMBER
+        - PACKAGE_FILENAME=nanny_$VERSION.tar.gz
+      script:
+        - make release-brew
       deploy:
         provider: releases
         api_key: $GITHUB_OAUTH_TOKEN
@@ -35,7 +54,11 @@ jobs:
 stages:
   - name: Build
     if: type != pull_request
-  - name: Deploy
+  - name: Tag
+    if: branch = master AND type != pull_request
+  - name: Deploy_Debian
+    if: branch = master AND type != pull_request
+  - name: Deploy_Brew
     if: branch = master AND type != pull_request
 branches:
   only:
