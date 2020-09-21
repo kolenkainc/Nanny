@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,30 +18,36 @@ namespace Nanny.Console
         public Program()
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(builder.Build())
                 .CreateLogger();
+            _host = Host.CreateDefaultBuilder()
+                .ConfigureServices((context, services) =>
+                {
+                    services.AddLogging(l =>
+                    {
+                        l.ClearProviders();
+                        l.AddSerilog(Log.Logger);
+                    });
+                    services.AddTransient<CommandList>();
+                    services.AddTransient<IPrinter, ConsolePrinter>();
+                })
+                .Build();
+        }
+
+        static void Main(string[] args)
+        {
             try
             {
                 Log.Logger.Information("Getting started...");
-                _host = Host.CreateDefaultBuilder()
-                    .ConfigureServices((context, services) =>
-                    {
-                        services.AddLogging(l =>
-                        {
-                            l.ClearProviders();
-                            l.AddSerilog(Log.Logger);
-                        });
-                        services.AddTransient<CommandList>();
-                        services.AddTransient<IPrinter, ConsolePrinter>();
-                    })
-                    .Build();
+                Program program = new Program();
+                program.Run(args);
             }
-            catch (Exception ex)
+            catch (Exception ex)    
             {
                 Log.Logger.Fatal(ex, "Host terminated unexpectedly");
             }
@@ -48,12 +55,6 @@ namespace Nanny.Console
             {
                 Log.CloseAndFlush();
             }
-        }
-
-        static void Main(string[] args)
-        {
-            Program program = new Program();
-            program.Run(args);
         }
 
         public void Run(string[] args)
