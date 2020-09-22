@@ -16,7 +16,7 @@ class Nanny < Formula
       bin.install_symlink libexec/"Nanny.Console" => "nanny"
     end
   
-    # test do
-    #   assert_match version.to_s, shell_output("#{bin}/nanny --version")
-    # end
+    test do
+      assert_match version.to_s, shell_output("#{bin}/nanny --version")
+    end
   end
