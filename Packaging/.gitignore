@@ -5,3 +5,4 @@ debian/DEBIAN/control
 
 # Brew files
 !brew/Formula/nanny.rb
+dist
