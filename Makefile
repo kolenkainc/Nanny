@@ -18,6 +18,9 @@ release-deb:
 release-brew:
 	dotnet publish Nanny.Console/Nanny.Console.csproj -c Release --self-contained -r osx.10.12-x64 -o bin
 	tar -cvzf $(FILENAME).tar.gz bin
+
+publish-brew:
+	wget https://github.com/kolenkainc/Nanny/releases/download/$(VERSION)/$(FILENAME).tar.gz
 	# change version of formula
 	cp -R Packaging/src/brew Packaging/dist
 	sed -i.bak "s/VERSION/$$VERSION/g" Packaging/dist/brew/Formula/nanny.rb && rm Packaging/dist/brew/Formula/nanny.rb.bak
