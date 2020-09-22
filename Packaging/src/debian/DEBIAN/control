@@ -4,7 +4,7 @@ Section: base
 Priority: optional
 Architecture: amd64
 Maintainer: Dmitry Romashov <dmitry@romashov.tech>
-Description: Hello World
- When you need some sunshine, just run this
- small program!
-
+Description: Nanny
+  - is a command line interface for creation
+  Github Pull Requests for projects with multiple
+  release versions.

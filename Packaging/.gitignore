@@ -1,8 +1,2 @@
-# Debian files
-debian/opt/kolenkainc/nanny/
-!debian/opt/kolenkainc/nanny/.gitkeep
-debian/DEBIAN/control
-
-# Brew files
-!brew/Formula/nanny.rb
 dist
+!src/debian/usr/local/bin
