@@ -70,7 +70,7 @@ jobs:
         committer_from_gh: true
         skip_cleanup: true
         keep_history: true
-        local_dir: Nanny.Console
+        local_dir: Packaging/brew
         repo: kolenkainc/homebrew-nanny
         target_branch: master
 
