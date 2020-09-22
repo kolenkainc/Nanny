@@ -4,4 +4,4 @@ debian/opt/kolenkainc/nanny/
 debian/DEBIAN/control
 
 # Brew files
-brew/Formula/nanny.rb
+!brew/Formula/nanny.rb
