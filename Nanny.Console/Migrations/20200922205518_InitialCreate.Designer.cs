@@ -8,7 +8,7 @@ using Nanny.Console.Database;
 namespace Nanny.Console.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200922154115_InitialCreate")]
+    [Migration("20200922205518_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,7 +17,7 @@ namespace Nanny.Console.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.8");
 
-            modelBuilder.Entity("Nanny.Console.Database.Properties", b =>
+            modelBuilder.Entity("Nanny.Console.Database.Property", b =>
                 {
                     b.Property<string>("Key")
                         .HasColumnType("TEXT");

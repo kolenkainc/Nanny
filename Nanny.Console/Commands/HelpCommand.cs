@@ -7,11 +7,6 @@ namespace Nanny.Console.Commands
             "Как использовать Nanny мы еще не знаем";
         private Key _key = new Key("help", "h");
 
-        public override void Execute()
-        {
-            // nothing
-        }
-
         public override string Output()
         {
             return _output;

@@ -1,4 +1,5 @@
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using Nanny.Console.Database;
 
 namespace Nanny.Console.Commands
@@ -7,33 +8,25 @@ namespace Nanny.Console.Commands
     {
         private Key _key = new Key("login", "l");
         private ApplicationContext _db;
+        private Logger<LoginCommand> _logger;
 
-        public LoginCommand(ApplicationContext db)
+        public LoginCommand(ApplicationContext db, Logger<LoginCommand> logger)
         {
             _db = db;
-        }
-        
-        public override void Execute()
-        {
-            throw new System.NotImplementedException();
+            _logger = logger;
         }
 
         public override string Output()
         {
-            if (_db.Properties.Count() == 0)
+            _logger.LogInformation("Check Jira login");
+            Property property = _db.Properties.FirstOrDefault(p => p.Key == "JiraToken");
+            if (property == null)
             {
-                _db.Properties.Add(new Properties
-                {
-                    Key = "",
-                    Value = "password"
-                });
-                _db.SaveChanges();
-                return "";
+                _logger.LogInformation("There is no JiraToken in db");
+                return "Please, pass Jira Token";
             }
-            else
-            {
-                return "It's OK";
-            }
+
+            return "You already have JiraToken";
         }
 
         public override Key Key()

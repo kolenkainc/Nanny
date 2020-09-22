@@ -2,7 +2,6 @@ namespace Nanny.Console.Commands
 {
     public abstract class Command
     {
-        public abstract void Execute();
         public abstract string Output();
         public abstract Key Key();
 

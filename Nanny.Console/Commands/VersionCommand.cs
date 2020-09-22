@@ -5,11 +5,6 @@ namespace Nanny.Console.Commands
         private string _template =
             "Nanny version: {0}";
         private Key _key = new Key("version", "v");
-        
-        public override void Execute()
-        {
-            // nothing
-        }
 
         public override string Output()
         {

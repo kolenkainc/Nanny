@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Nanny.Console.Database
 {
-    public class Properties
+    public class Property
     {
         [Key]
         public string Key { get; set; }

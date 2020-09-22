@@ -15,7 +15,7 @@ namespace Nanny.Console.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.8");
 
-            modelBuilder.Entity("Nanny.Console.Database.Properties", b =>
+            modelBuilder.Entity("Nanny.Console.Database.Property", b =>
                 {
                     b.Property<string>("Key")
                         .HasColumnType("TEXT");
