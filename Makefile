@@ -23,6 +23,7 @@ publish-brew:
 	wget https://github.com/kolenkainc/Nanny/releases/download/$(VERSION)/$(FILENAME).tar.gz
 	# change version of formula
 	cp -R Packaging/src/brew Packaging/dist
+	ls -la Packaging/dist/brew/Formula
 	sed -i.bak "s/VERSION/$$VERSION/g" Packaging/dist/brew/Formula/nanny.rb && rm Packaging/dist/brew/Formula/nanny.rb.bak
 	# calculate sha and change it in formula
 	openssl dgst -sha256 $(FILENAME).tar.gz > Packaging/dist/brew/Formula/sha256.txt
