@@ -24,4 +24,4 @@ release-brew:
 	# calculate sha and change it in formula
 	openssl dgst -sha256 $(FILENAME).tar.gz > Packaging/dist/brew/Formula/sha256.txt
 	sed -i.bak "s/SHA256($(FILENAME).tar.gz)= //g" Packaging/dist/brew/Formula/sha256.txt && rm Packaging/dist/brew/Formula/sha256.txt.bak
-	SHA=$$(cat Packaging/brew/Formula/sha256.txt) && sed -i.bak "s/SHA/$$SHA/g" Packaging/brew/Formula/nanny.rb && rm Packaging/brew/Formula/nanny.rb.bak && rm Packaging/brew/Formula/sha256.txt
+	SHA=$$(cat Packaging/dist/brew/Formula/sha256.txt) && sed -i.bak "s/SHA/$$SHA/g" Packaging/dist/brew/Formula/nanny.rb && rm Packaging/dist/brew/Formula/nanny.rb.bak && rm Packaging/dist/brew/Formula/sha256.txt
