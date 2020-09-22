@@ -11,7 +11,7 @@ jobs:
       script:
         - dotnet build
 
-    - stage: Release
+    - stage: Tag
       language: minimal
       dist: xenial
       mono: none
@@ -26,7 +26,7 @@ jobs:
         provider: releases
         api_key: $GITHUB_OAUTH_TOKEN
 
-    - stage: Deploy
+    - stage: Release
       language: csharp
       dist: xenial
       mono: none
@@ -43,7 +43,7 @@ jobs:
         file: $PACKAGE_FILENAME
         skip_cleanup: true
 
-    - stage: Deploy
+    - stage: Release
       language: csharp
       dist: xenial
       mono: none
@@ -59,14 +59,30 @@ jobs:
         file: $PACKAGE_FILENAME
         skip_cleanup: true
 
+    - stage: Publish
+      language: minimal
+      dist: xenial
+      env:
+        - VERSION=1.0.0.$TRAVIS_BUILD_NUMBER
+        - PACKAGE_FILENAME=nanny_$VERSION.tar.gz
+      deploy:
+        provider: pages
+        token: $GITHUB_OAUTH_TOKEN
+        committer_from_gh: true
+        skip_cleanup: true
+        keep_history: true
+        local_dir: Nanny.Console
+        repo: kolenkainc/homebrew-nanny
+        target_branch: master
+
 stages:
   - name: Build
     if: type != pull_request
   - name: Tag
     if: branch = master AND type != pull_request
-  - name: Deploy_Debian
+  - name: Deploy
     if: branch = master AND type != pull_request
-  - name: Deploy_Brew
+  - name: Publish
     if: branch = master AND type != pull_request
 branches:
   only:
