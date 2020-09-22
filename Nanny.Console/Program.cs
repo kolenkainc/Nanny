@@ -1,7 +1,9 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Nanny.Console.Commands;
+using Nanny.Console.Database;
 using Nanny.Console.Printers;
 using Serilog;
 
@@ -20,6 +22,11 @@ namespace Nanny.Console
                 _logger = startup.CreateLogger();
                 _logger.Information("Getting started...");
                 _host = startup.CreateHost(_logger);
+                using (var scope = _host.Services.CreateScope())
+                {
+                    var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+                    db.Database.Migrate();
+                }
             }
             catch (Exception ex)    
             {
@@ -42,7 +49,7 @@ namespace Nanny.Console
             var list = ActivatorUtilities.CreateInstance<CommandList>(_host.Services);
             ActivatorUtilities.CreateInstance<ConsolePrinter>(
                 _host.Services,
-                list.Find(args, new HelpCommand())
+                list.Find(args, ActivatorUtilities.CreateInstance<HelpCommand>(_host.Services))
                 )
                 .Print();
         }
