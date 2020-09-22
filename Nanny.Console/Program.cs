@@ -12,21 +12,27 @@ namespace Nanny.Console
     public class Program
     {
         private IHost _host;
-        private ILogger _logger;
+        private static ILogger _logger;
 
         public Program()
         {
+            Startup startup = new Startup();
+            _logger = startup.CreateLogger();
+            _host = startup.CreateHost(_logger);
+            using (var scope = _host.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+                db.Database.Migrate();
+            }
+        }
+
+        static void Main(string[] args)
+        {
             try
             {
-                Startup startup = new Startup();
-                _logger = startup.CreateLogger();
+                Program program = new Program();
                 _logger.Information("Getting started...");
-                _host = startup.CreateHost(_logger);
-                using (var scope = _host.Services.CreateScope())
-                {
-                    var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
-                    db.Database.Migrate();
-                }
+                program.Run(args);
             }
             catch (Exception ex)    
             {
@@ -38,18 +44,12 @@ namespace Nanny.Console
             }
         }
 
-        static void Main(string[] args)
-        {
-            Program program = new Program();
-            program.Run(args);
-        }
-
         public void Run(string[] args)
         {
             var list = ActivatorUtilities.CreateInstance<CommandList>(_host.Services);
             ActivatorUtilities.CreateInstance<ConsolePrinter>(
-                _host.Services,
-                list.Find(args, ActivatorUtilities.CreateInstance<HelpCommand>(_host.Services))
+                    _host.Services,
+                    list.Find(args, ActivatorUtilities.CreateInstance<HelpCommand>(_host.Services))
                 )
                 .Print();
         }

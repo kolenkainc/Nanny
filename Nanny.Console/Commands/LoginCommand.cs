@@ -18,12 +18,12 @@ namespace Nanny.Console.Commands
 
         public override string Output()
         {
-            _logger.LogInformation("Check Jira login");
+            _logger.LogInformation("Check JiraToken");
             Property property = _db.Properties.FirstOrDefault(p => p.Key == "JiraToken");
             if (property == null)
             {
                 _logger.LogInformation("There is no JiraToken in db");
-                return "Please, pass Jira Token";
+                return "Please, pass JiraToken";
             }
 
             return "You already have JiraToken";
