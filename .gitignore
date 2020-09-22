@@ -233,6 +233,3 @@ _Pvt_Extensions
 .fake/
 
 *.deb
-
-# Brew
-brew
