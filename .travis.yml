@@ -80,7 +80,7 @@ stages:
     if: type != pull_request
   - name: Tag
     if: branch = master AND type != pull_request
-  - name: Deploy
+  - name: Release
     if: branch = master AND type != pull_request
   - name: Publish
     if: branch = master AND type != pull_request
