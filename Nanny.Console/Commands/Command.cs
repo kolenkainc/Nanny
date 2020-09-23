@@ -2,7 +2,7 @@ namespace Nanny.Console.Commands
 {
     public abstract class Command
     {
-        public abstract string Output();
+        public abstract string Execute();
         public abstract Key Key();
 
         public bool IsSuite(string name)

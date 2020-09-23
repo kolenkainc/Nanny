@@ -16,7 +16,7 @@ namespace Nanny.Console.Commands
             _logger = logger;
         }
 
-        public override string Output()
+        public override string Execute()
         {
             _logger.LogInformation("Check JiraToken");
             Property property = _db.Properties.FirstOrDefault(p => p.Key == "JiraToken");

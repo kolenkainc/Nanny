@@ -6,7 +6,7 @@ namespace Nanny.Console.Commands
             "Nanny version: {0}";
         private Key _key = new Key("version", "v");
 
-        public override string Output()
+        public override string Execute()
         {
             return string.Format(_template, typeof(VersionCommand).Assembly.GetName().Version);
         }

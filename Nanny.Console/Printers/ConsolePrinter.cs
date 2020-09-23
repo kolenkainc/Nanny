@@ -15,7 +15,7 @@ namespace Nanny.Console.Printers
         public override void Print()
         {
             _log.LogInformation("Start printing");
-            WriteLine(Command.Output());
+            WriteLine(Command.Execute());
         }
 
         private void WriteLine(string output)
