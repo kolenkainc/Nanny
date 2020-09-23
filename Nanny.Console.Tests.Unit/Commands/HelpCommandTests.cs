@@ -3,7 +3,7 @@ using NHamcrest.Core;
 using Xunit;
 using Assert = NHamcrest.XUnit.Assert;
 
-namespace Nanny.Console.Tests.Business.Commands
+namespace Nanny.Console.Tests.Unit.Commands
 {
     public class HelpCommandTests
     {
