@@ -8,9 +8,9 @@ namespace Nanny.Console.Commands
     {
         private Key _key = new Key("login", "l");
         private ApplicationContext _db;
-        private Logger<LoginCommand> _logger;
+        private ILogger<LoginCommand> _logger;
 
-        public LoginCommand(ApplicationContext db, Logger<LoginCommand> logger)
+        public LoginCommand(ApplicationContext db, ILogger<LoginCommand> logger)
         {
             _db = db;
             _logger = logger;
