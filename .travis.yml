@@ -8,8 +8,9 @@ jobs:
       install:
         - dotnet clean
         - dotnet restore
-      script:
         - dotnet build
+      script:
+        - dotnet test
 
     - stage: Tag
       language: minimal
