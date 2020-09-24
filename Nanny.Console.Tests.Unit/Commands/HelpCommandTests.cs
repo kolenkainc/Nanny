@@ -1,23 +1,32 @@
+using Moq;
 using Nanny.Console.Commands;
-using NHamcrest;
+using Nanny.Console.Printers;
 using Xunit;
-using Assert = NHamcrest.XUnit.Assert;
 
 namespace Nanny.Console.Tests.Unit.Commands
 {
     public class HelpCommandTests
     {
         private HelpCommand _command;
+        private Mock<IPrinter> _printerMock;
 
         public HelpCommandTests()
         {
-            _command = new HelpCommand();
+            _printerMock = new Mock<IPrinter>();
+            _command = new HelpCommand(_printerMock.Object);
         }
         
         [Fact]
         public void ExecuteCommand_ReturnsHelpMessage()
         {
-            Assert.That(_command.Execute(), Is.EqualTo("Привет\nКак использовать Nanny мы еще не знаем"));
+            // Act
+            _command.Execute();
+            
+            // Assert
+            _printerMock.Verify(
+                m => m.Print("Привет\nКак использовать Nanny мы еще не знаем"),
+                Times.Once
+            );
         }
     }
 }

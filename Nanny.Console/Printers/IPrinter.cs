@@ -2,6 +2,6 @@ namespace Nanny.Console.Printers
 {
     public interface IPrinter
     {
-        void Print();
+        void Print(string line);
     }
 }

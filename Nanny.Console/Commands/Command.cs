@@ -1,8 +1,16 @@
+using Nanny.Console.Printers;
+
 namespace Nanny.Console.Commands
 {
     public abstract class Command
     {
-        public abstract string Execute();
+        protected IPrinter Printer; 
+        
+        public Command(IPrinter printer)
+        {
+            Printer = printer;
+        }
+        public abstract void Execute();
         public abstract Key Key();
 
         public bool IsSuite(string name)

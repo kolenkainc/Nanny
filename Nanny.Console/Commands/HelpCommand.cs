@@ -1,3 +1,5 @@
+using Nanny.Console.Printers;
+
 namespace Nanny.Console.Commands
 {
     public class HelpCommand : Command
@@ -7,9 +9,13 @@ namespace Nanny.Console.Commands
             "Как использовать Nanny мы еще не знаем";
         private Key _key = new Key("help", "h");
 
-        public override string Execute()
+        public HelpCommand(IPrinter printer) : base(printer)
         {
-            return _output;
+        }
+
+        public override void Execute()
+        {
+            Printer.Print(_output);
         }
 
         public override Key Key()

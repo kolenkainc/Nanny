@@ -46,12 +46,9 @@ namespace Nanny.Console
 
         public void Run(string[] args)
         {
-            var list = ActivatorUtilities.CreateInstance<CommandList>(_host.Services);
-            ActivatorUtilities.CreateInstance<ConsolePrinter>(
-                    _host.Services,
-                    list.Find(args, ActivatorUtilities.CreateInstance<HelpCommand>(_host.Services))
-                )
-                .Print();
+            ActivatorUtilities.CreateInstance<CommandList>(_host.Services)
+                .Find(args, ActivatorUtilities.CreateInstance<HelpCommand>(_host.Services))
+                .Execute();
         }
     }
 }

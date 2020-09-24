@@ -7,15 +7,15 @@ namespace Nanny.Console.Printers
     {
         private ILogger<ConsolePrinter> _log;
         
-        public ConsolePrinter(ILogger<ConsolePrinter> log, Command command) : base(command)
+        public ConsolePrinter(ILogger<ConsolePrinter> log)
         {
             _log = log;
         }
 
-        public override void Print()
+        public override void Print(string line)
         {
             _log.LogInformation("Start printing");
-            WriteLine(Command.Execute());
+            WriteLine(line);
         }
 
         private void WriteLine(string output)

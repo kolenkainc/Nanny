@@ -4,25 +4,34 @@ using Moq;
 using Moq.EntityFrameworkCore;
 using Nanny.Console.Commands;
 using Nanny.Console.Database;
-using NHamcrest;
+using Nanny.Console.Printers;
 using Xunit;
-using Assert = NHamcrest.XUnit.Assert;
 
 namespace Nanny.Console.Tests.Unit.Commands
 {
     public class LoginCommandTests
     {
-        [Fact]
+        private Mock<IPrinter> _printerMock;
+
+        public LoginCommandTests()
+        {
+            _printerMock = new Mock<IPrinter>();
+        }
+
+            [Fact]
         public void ExecuteCommand_WithEmptyDb_ReturnsErrorMessage()
         {
             // Arrange
             var mockContext = new Mock<ApplicationContext>();
             mockContext.Setup(m => m.Properties).ReturnsDbSet(new List<Property>());
             Mock<ILogger<LoginCommand>> loggerMock = new Mock<ILogger<LoginCommand>>();
-            LoginCommand command = new LoginCommand(mockContext.Object, loggerMock.Object);
+            LoginCommand command = new LoginCommand(mockContext.Object, loggerMock.Object, _printerMock.Object);
             
-            // Act and Assert
-            Assert.That(command.Execute(), Is.EqualTo("Please, pass JiraToken"));
+            // Act
+            command.Execute();
+            
+            // Assert
+            _printerMock.Verify(m => m.Print("Please, pass JiraToken"), Times.Once);
         }
 
         [Fact]
@@ -40,10 +49,13 @@ namespace Nanny.Console.Tests.Unit.Commands
             };
             mockContext.Setup(m => m.Properties).ReturnsDbSet(props);
             Mock<ILogger<LoginCommand>> loggerMock = new Mock<ILogger<LoginCommand>>();
-            LoginCommand command = new LoginCommand(mockContext.Object, loggerMock.Object);
+            LoginCommand command = new LoginCommand(mockContext.Object, loggerMock.Object, _printerMock.Object);
             
-            // Act and Assert
-            Assert.That(command.Execute(), Is.EqualTo("You already have JiraToken"));
+            // Act
+            command.Execute();
+            
+            // Assert
+            _printerMock.Verify(m => m.Print("You already have JiraToken"), Times.Once);
         }
     }
 }
