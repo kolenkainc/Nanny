@@ -1,5 +1,5 @@
 using Nanny.Console.Commands;
-using NHamcrest.Core;
+using NHamcrest;
 using Xunit;
 using Assert = NHamcrest.XUnit.Assert;
 
@@ -17,7 +17,7 @@ namespace Nanny.Console.Tests.Unit.Commands
         [Fact]
         public void ExecuteCommand_ReturnsHelpMessage()
         {
-            Assert.That(_command.Execute(), new IsEqualMatcher<string>("Привет\nКак использовать Nanny мы еще не знаем"));
+            Assert.That(_command.Execute(), Is.EqualTo("Привет\nКак использовать Nanny мы еще не знаем"));
         }
     }
 }

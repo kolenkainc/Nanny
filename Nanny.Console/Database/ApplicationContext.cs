@@ -9,6 +9,6 @@ namespace Nanny.Console.Database
             builder.UseSqlite("Data Source=nanny.db");
         }
 
-        public DbSet<Property> Properties { get; set; }
+        public virtual DbSet<Property> Properties { get; set; }
     }
 }
