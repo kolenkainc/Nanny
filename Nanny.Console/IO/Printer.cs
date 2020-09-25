@@ -1,4 +1,4 @@
-namespace Nanny.Console.Printers
+namespace Nanny.Console.IO
 {
     public abstract class Printer : IPrinter
     {

@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Nanny.Console.Commands;
 using Nanny.Console.Database;
-using Nanny.Console.Printers;
 using Serilog;
 
 namespace Nanny.Console

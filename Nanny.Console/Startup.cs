@@ -1,14 +1,13 @@
 using System;
 using System.IO;
 using System.Reflection;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Nanny.Console.Commands;
 using Nanny.Console.Database;
-using Nanny.Console.Printers;
+using Nanny.Console.IO;
 using Serilog;
 using Serilog.Core;
 
@@ -52,6 +51,7 @@ namespace Nanny.Console
                     services.AddTransient<VersionCommand>();
                     services.AddTransient<LoginCommand>();
                     services.AddTransient<IPrinter, ConsolePrinter>();
+                    services.AddTransient<IScanner, ConsoleScanner>();
                     services.AddDbContext<ApplicationContext>();
                 })
                 .Build();

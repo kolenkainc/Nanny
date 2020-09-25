@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Nanny.Console.Commands;
 
-namespace Nanny.Console.Printers
+namespace Nanny.Console.IO
 {
     public class ConsolePrinter : Printer
     {
