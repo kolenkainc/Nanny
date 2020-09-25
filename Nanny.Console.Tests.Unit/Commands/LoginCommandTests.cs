@@ -4,7 +4,7 @@ using Moq;
 using Moq.EntityFrameworkCore;
 using Nanny.Console.Commands;
 using Nanny.Console.Database;
-using Nanny.Console.Printers;
+using Nanny.Console.IO;
 using Xunit;
 
 namespace Nanny.Console.Tests.Unit.Commands
@@ -12,10 +12,12 @@ namespace Nanny.Console.Tests.Unit.Commands
     public class LoginCommandTests
     {
         private Mock<IPrinter> _printerMock;
+        private Mock<IScanner> _scannerMock;
 
         public LoginCommandTests()
         {
             _printerMock = new Mock<IPrinter>();
+            _scannerMock = new Mock<IScanner>();
         }
 
             [Fact]
@@ -25,7 +27,7 @@ namespace Nanny.Console.Tests.Unit.Commands
             var mockContext = new Mock<ApplicationContext>();
             mockContext.Setup(m => m.Properties).ReturnsDbSet(new List<Property>());
             Mock<ILogger<LoginCommand>> loggerMock = new Mock<ILogger<LoginCommand>>();
-            LoginCommand command = new LoginCommand(mockContext.Object, loggerMock.Object, _printerMock.Object);
+            LoginCommand command = new LoginCommand(mockContext.Object, loggerMock.Object, _printerMock.Object, _scannerMock.Object);
             
             // Act
             command.Execute();
@@ -49,7 +51,7 @@ namespace Nanny.Console.Tests.Unit.Commands
             };
             mockContext.Setup(m => m.Properties).ReturnsDbSet(props);
             Mock<ILogger<LoginCommand>> loggerMock = new Mock<ILogger<LoginCommand>>();
-            LoginCommand command = new LoginCommand(mockContext.Object, loggerMock.Object, _printerMock.Object);
+            LoginCommand command = new LoginCommand(mockContext.Object, loggerMock.Object, _printerMock.Object, _scannerMock.Object);
             
             // Act
             command.Execute();

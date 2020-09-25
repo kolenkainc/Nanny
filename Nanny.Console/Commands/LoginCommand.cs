@@ -10,11 +10,13 @@ namespace Nanny.Console.Commands
         private Key _key = new Key("login", "l");
         private ApplicationContext _db;
         private ILogger<LoginCommand> _logger;
+        private IScanner _scanner;
 
-        public LoginCommand(ApplicationContext db, ILogger<LoginCommand> logger, IPrinter printer) : base(printer)
+        public LoginCommand(ApplicationContext db, ILogger<LoginCommand> logger, IPrinter printer, IScanner scanner) : base(printer)
         {
             _db = db;
             _logger = logger;
+            _scanner = scanner;
         }
 
         public override void Execute()

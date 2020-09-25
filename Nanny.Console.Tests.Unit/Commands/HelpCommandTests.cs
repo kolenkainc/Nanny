@@ -1,6 +1,6 @@
 using Moq;
 using Nanny.Console.Commands;
-using Nanny.Console.Printers;
+using Nanny.Console.IO;
 using Xunit;
 
 namespace Nanny.Console.Tests.Unit.Commands
