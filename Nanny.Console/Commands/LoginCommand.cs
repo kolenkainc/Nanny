@@ -1,7 +1,7 @@
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Nanny.Console.Database;
-using Nanny.Console.Printers;
+using Nanny.Console.IO;
 
 namespace Nanny.Console.Commands
 {
