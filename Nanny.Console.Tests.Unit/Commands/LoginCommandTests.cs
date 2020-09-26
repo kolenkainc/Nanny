@@ -20,7 +20,7 @@ namespace Nanny.Console.Tests.Unit.Commands
             _scannerMock = new Mock<IScanner>();
         }
 
-            [Fact]
+        [Fact]
         public void ExecuteCommand_WithEmptyDb_ReturnsErrorMessage()
         {
             // Arrange
