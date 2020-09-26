@@ -1,21 +1,21 @@
 using Microsoft.Extensions.Logging;
 using Nanny.Console.Commands;
 
-namespace Nanny.Console.Printers
+namespace Nanny.Console.IO
 {
     public class ConsolePrinter : Printer
     {
         private ILogger<ConsolePrinter> _log;
         
-        public ConsolePrinter(ILogger<ConsolePrinter> log, Command command) : base(command)
+        public ConsolePrinter(ILogger<ConsolePrinter> log)
         {
             _log = log;
         }
 
-        public override void Print()
+        public override void Print(string line)
         {
             _log.LogInformation("Start printing");
-            WriteLine(Command.Output());
+            WriteLine(line);
         }
 
         private void WriteLine(string output)

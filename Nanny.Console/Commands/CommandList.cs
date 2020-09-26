@@ -4,10 +4,11 @@ namespace Nanny.Console.Commands
 {
     public class CommandList : List<Command>
     {
-        public CommandList()
+        public CommandList(VersionCommand version, HelpCommand help, LoginCommand login)
         {
-            Add(new VersionCommand());
-            Add(new HelpCommand());
+            Add(version);
+            Add(help);
+            Add(login);
         }
 
         public Command Find(string[] userInput, Command defaultValue)

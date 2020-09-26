@@ -1,3 +1,5 @@
+using Nanny.Console.IO;
+
 namespace Nanny.Console.Commands
 {
     public class VersionCommand : Command
@@ -5,15 +7,14 @@ namespace Nanny.Console.Commands
         private string _template =
             "Nanny version: {0}";
         private Key _key = new Key("version", "v");
-        
-        public override void Execute()
+
+        public VersionCommand(IPrinter printer) : base(printer)
         {
-            // nothing
         }
 
-        public override string Output()
+        public override void Execute()
         {
-            return string.Format(_template, typeof(VersionCommand).Assembly.GetName().Version);
+            Printer.Print(string.Format(_template, typeof(VersionCommand).Assembly.GetName().Version));
         }
 
         public override Key Key()
