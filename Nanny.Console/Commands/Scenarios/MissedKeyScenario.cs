@@ -43,21 +43,6 @@ namespace Nanny.Console.Commands.Scenarios
             }
         }
 
-        private void fillJiraDomain()
-        {
-            
-        }
-
-        private void fillJiraToken()
-        {
-
-        }
-
-        private void fillGithubToken()
-        {
-            
-        }
-
         private string validateJiraToken(string candidate)
         {
             return candidate;
