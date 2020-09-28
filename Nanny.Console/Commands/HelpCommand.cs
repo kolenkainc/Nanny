@@ -30,18 +30,31 @@ namespace Nanny.Console.Commands
             CommandList list = _serviceProvider.GetRequiredService<CommandList>();
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Commands:");
+            list.Sort((command1, command2) => command2.Key().ToString().Length.CompareTo(command1.Key().ToString().Length));
             foreach (var command in list)
             {
                 if (command is HelpCommand)
                 {
-                    sb.AppendLine($"  nanny {_key}      # pass tokens for Jira and Github");
+                    sb.AppendLine($"{prefix(list[0], command)} # describe available commands");
                 }
                 else
                 {
-                    sb.AppendLine(command.HelpMessage());
+                    sb.AppendLine($"{prefix(list[0], command)} # {command.HelpMessage()}");
                 }
             }
             return sb.ToString();
+        }
+
+        private string prefix(Command first, Command actual)
+        {
+            int exampleLength = first.ExampleMessage().Length;
+            string delta = "";
+            for (int i = 0; i < exampleLength - actual.ExampleMessage().Length; i++)
+            {
+                delta += " ";
+            }
+
+            return $"{actual.ExampleMessage()} {delta}";
         }
     }
 }

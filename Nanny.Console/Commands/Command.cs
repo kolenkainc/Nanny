@@ -19,5 +19,10 @@ namespace Nanny.Console.Commands
         }
 
         public abstract string HelpMessage();
+
+        public string ExampleMessage()
+        {
+            return $"  nanny {Key()}";
+        }
     }
 }
