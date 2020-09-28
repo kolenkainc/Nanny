@@ -1,3 +1,4 @@
+using System;
 using Moq;
 using Nanny.Console.Commands;
 using Nanny.Console.IO;
@@ -9,11 +10,14 @@ namespace Nanny.Console.Tests.Unit.Commands
     {
         private HelpCommand _command;
         private Mock<IPrinter> _printerMock;
+        private Mock<CommandList> _commandListMock;
+        private Mock<IServiceProvider> _serviceProvider;
 
         public HelpCommandTests()
         {
             _printerMock = new Mock<IPrinter>();
-            _command = new HelpCommand(_printerMock.Object);
+            _serviceProvider = new Mock<IServiceProvider>();
+            _command = new HelpCommand(_serviceProvider.Object, _printerMock.Object);
         }
         
         [Fact]

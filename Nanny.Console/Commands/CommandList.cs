@@ -4,23 +4,26 @@ namespace Nanny.Console.Commands
 {
     public class CommandList : List<Command>
     {
+        private Command _default;
+        
         public CommandList(VersionCommand version, HelpCommand help, LoginCommand login)
         {
             Add(version);
             Add(help);
             Add(login);
+            _default = help;
         }
 
-        public Command Find(string[] userInput, Command defaultValue)
+        public Command Find(string[] userInput)
         {
             if (userInput.Length == 0)
             {
-                return defaultValue;
+                return _default;
             }
 
             Command candidate = Find(command => command.IsSuite(userInput[0]));
 
-            return candidate == null ? defaultValue : candidate;
+            return candidate == null ? _default : candidate;
         }
     }
 }

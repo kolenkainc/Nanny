@@ -17,5 +17,7 @@ namespace Nanny.Console.Commands
         {
             return Key().IsSuite(name);
         }
+
+        public abstract string HelpMessage();
     }
 }

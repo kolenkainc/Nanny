@@ -18,5 +18,10 @@ namespace Nanny.Console.Commands
             return fromUser == _prefix + _longName 
                    || fromUser == _prefix + _shortName;
         }
+
+        public override string ToString()
+        {
+            return $"{_prefix}{_longName} or {_prefix}{_shortName}";
+        }
     }
 }

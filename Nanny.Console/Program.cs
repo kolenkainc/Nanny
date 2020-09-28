@@ -46,7 +46,7 @@ namespace Nanny.Console
         public void Run(string[] args)
         {
             ActivatorUtilities.CreateInstance<CommandList>(_host.Services)
-                .Find(args, ActivatorUtilities.CreateInstance<HelpCommand>(_host.Services))
+                .Find(args)
                 .Execute();
         }
     }

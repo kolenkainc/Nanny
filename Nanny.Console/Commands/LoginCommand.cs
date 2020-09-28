@@ -30,5 +30,10 @@ namespace Nanny.Console.Commands
         {
             return _key;
         }
+        
+        public override string HelpMessage()
+        {
+            return $"  nanny {_key}      # pass tokens for Jira and Github";
+        }
     }
 }

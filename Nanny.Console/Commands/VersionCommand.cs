@@ -21,5 +21,10 @@ namespace Nanny.Console.Commands
         {
             return _key;
         }
+        
+        public override string HelpMessage()
+        {
+            return $"  nanny {_key}      # get versions of nanny";
+        }
     }
 }

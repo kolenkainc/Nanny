@@ -46,10 +46,10 @@ namespace Nanny.Console
                         l.ClearProviders();
                         l.AddSerilog(logger);
                     });
-                    services.AddTransient<CommandList>();
-                    services.AddTransient<HelpCommand>();
                     services.AddTransient<VersionCommand>();
                     services.AddTransient<LoginCommand>();
+                    services.AddTransient<CommandList>();
+                    services.AddTransient<HelpCommand>();
                     services.AddTransient<IPrinter, ConsolePrinter>();
                     services.AddTransient<IScanner, ConsoleScanner>();
                     services.AddDbContext<ApplicationContext>();
