@@ -2,6 +2,9 @@
 
 Nanny - is a command line interface for creation Github Pull Requests for projects with multiple release versions.
 
+![Master status](https://api.travis-ci.com/kolenkainc/nanny.svg?branch=master "master status")
+[![codecov](https://codecov.io/gh/kolenkainc/nanny/branch/master/graph/badge.svg?token=32CKSF3ZS6)](codecov)
+
 ## Installation
 ### Linux
 ```bash
