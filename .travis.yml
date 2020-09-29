@@ -10,7 +10,9 @@ jobs:
         - dotnet restore
         - dotnet build
       script:
-        - dotnet test
+        - dotnet test --logger "trx;LogFileName=report.trx" --collect:"XPlat Code Coverage"
+      after_script:
+        - bash <(curl -s https://codecov.io/bash)
 
     - stage: Tag
       language: minimal
