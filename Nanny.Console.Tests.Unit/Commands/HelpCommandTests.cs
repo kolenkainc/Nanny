@@ -1,5 +1,9 @@
+using System;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Nanny.Console.Commands;
+using Nanny.Console.Database;
 using Nanny.Console.IO;
 using Xunit;
 
@@ -9,11 +13,38 @@ namespace Nanny.Console.Tests.Unit.Commands
     {
         private HelpCommand _command;
         private Mock<IPrinter> _printerMock;
+        private Mock<IServiceProvider> _serviceProvider;
 
         public HelpCommandTests()
         {
             _printerMock = new Mock<IPrinter>();
-            _command = new HelpCommand(_printerMock.Object);
+            var fakeVersionCommand = new VersionCommand(_printerMock.Object);
+            var fakeHelpCommand = new HelpCommand(null, _printerMock.Object);
+            var fakeLoginCommand = new LoginCommand(
+                new Mock<ApplicationContext>().Object,
+                new Mock<ILogger<LoginCommand>>().Object,
+                _printerMock.Object,
+                new Mock<IScanner>().Object
+            );
+
+            _serviceProvider = new Mock<IServiceProvider>();
+            _serviceProvider
+                .Setup(x => x.GetService(typeof(CommandList)))
+                .Returns(new CommandList(fakeVersionCommand, fakeHelpCommand, fakeLoginCommand));
+
+            var serviceScope = new Mock<IServiceScope>();
+            serviceScope.Setup(x => x.ServiceProvider).Returns(_serviceProvider.Object);
+
+            var serviceScopeFactory = new Mock<IServiceScopeFactory>();
+            serviceScopeFactory
+                .Setup(x => x.CreateScope())
+                .Returns(serviceScope.Object);
+
+            _serviceProvider
+                .Setup(x => x.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactory.Object);
+
+            _command = new HelpCommand(_serviceProvider.Object, _printerMock.Object);
         }
         
         [Fact]
@@ -24,7 +55,12 @@ namespace Nanny.Console.Tests.Unit.Commands
             
             // Assert
             _printerMock.Verify(
-                m => m.Print("Привет\nКак использовать Nanny мы еще не знаем"),
+                    m => m.Print(
+                        $"Commands:{Environment.NewLine}" +
+                        $"  nanny --version or --v  # display version of nanny{Environment.NewLine}" +
+                        $"  nanny --login or --l    # pass tokens for Jira and Github{Environment.NewLine}" +
+                        $"  nanny --help or --h     # describe available commands{Environment.NewLine}"
+                    ),
                 Times.Once
             );
         }
