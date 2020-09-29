@@ -30,7 +30,11 @@ namespace Nanny.Console.Commands
             CommandList list = _serviceProvider.GetRequiredService<CommandList>();
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Commands:");
-            list.Sort((command1, command2) => command2.Key().ToString().Length.CompareTo(command1.Key().ToString().Length));
+            list.Sort((first, second) =>
+                second.Key().ToString().Length.CompareTo(
+                    first.Key().ToString().Length
+                )
+            );
             foreach (var command in list)
             {
                 if (command is HelpCommand)
