@@ -26,11 +26,16 @@ namespace Nanny.Console.Tests.Unit.Commands
                 _printerMock.Object,
                 new Mock<IScanner>().Object
             );
+            var fakeWorklogCommand = new WorklogCommand(
+                _printerMock.Object,
+                new Mock<ILogger<WorklogCommand>>().Object,
+                new Mock<ApplicationContext>().Object
+            );
 
             _serviceProvider = new Mock<IServiceProvider>();
             _serviceProvider
                 .Setup(x => x.GetService(typeof(CommandList)))
-                .Returns(new CommandList(fakeVersionCommand, fakeHelpCommand, fakeLoginCommand));
+                .Returns(new CommandList(fakeVersionCommand, fakeHelpCommand, fakeLoginCommand, fakeWorklogCommand));
 
             var serviceScope = new Mock<IServiceScope>();
             serviceScope.Setup(x => x.ServiceProvider).Returns(_serviceProvider.Object);
@@ -59,7 +64,8 @@ namespace Nanny.Console.Tests.Unit.Commands
                         $"Commands:{Environment.NewLine}" +
                         $"  nanny --version or --v  # display version of nanny{Environment.NewLine}" +
                         $"  nanny --help or --h     # describe available commands{Environment.NewLine}" +
-                        $"  nanny --login or --l    # pass tokens for Jira and Github{Environment.NewLine}"
+                        $"  nanny --login or --l    # pass tokens for Jira and Github{Environment.NewLine}" +
+                        $"  nanny --worklog or --w  # create work log of task in Jira{Environment.NewLine}"
                     ),
                 Times.Once
             );

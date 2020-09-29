@@ -6,11 +6,12 @@ namespace Nanny.Console.Commands
     {
         private Command _default;
         
-        public CommandList(VersionCommand version, HelpCommand help, LoginCommand login)
+        public CommandList(VersionCommand version, HelpCommand help, LoginCommand login, WorklogCommand worklog)
         {
             Add(version);
             Add(help);
             Add(login);
+            Add(worklog);
             _default = help;
         }
 

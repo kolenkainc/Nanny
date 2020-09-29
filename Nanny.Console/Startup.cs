@@ -48,8 +48,9 @@ namespace Nanny.Console
                     });
                     services.AddTransient<VersionCommand>();
                     services.AddTransient<LoginCommand>();
-                    services.AddTransient<CommandList>();
                     services.AddTransient<HelpCommand>();
+                    services.AddTransient<WorklogCommand>();
+                    services.AddTransient<CommandList>();
                     services.AddTransient<IPrinter, ConsolePrinter>();
                     services.AddTransient<IScanner, ConsoleScanner>();
                     services.AddDbContext<ApplicationContext>();
