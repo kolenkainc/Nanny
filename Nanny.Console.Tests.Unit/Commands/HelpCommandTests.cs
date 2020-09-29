@@ -58,8 +58,8 @@ namespace Nanny.Console.Tests.Unit.Commands
                     m => m.Print(
                         $"Commands:{Environment.NewLine}" +
                         $"  nanny --version or --v  # display version of nanny{Environment.NewLine}" +
-                        $"  nanny --login or --l    # pass tokens for Jira and Github{Environment.NewLine}" +
-                        $"  nanny --help or --h     # describe available commands{Environment.NewLine}"
+                        $"  nanny --help or --h     # describe available commands{Environment.NewLine}" +
+                        $"  nanny --login or --l    # pass tokens for Jira and Github{Environment.NewLine}"
                     ),
                 Times.Once
             );
