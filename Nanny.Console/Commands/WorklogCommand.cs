@@ -11,11 +11,13 @@ namespace Nanny.Console.Commands
         private ILogger<WorklogCommand> _logger;
         private ApplicationContext _db;
         private string JIRA_TOKEN = "JiraToken";
+        private IScanner _scanner;
         
-        public WorklogCommand(IPrinter printer, ILogger<WorklogCommand> logger, ApplicationContext db) : base(printer)
+        public WorklogCommand(IPrinter printer, IScanner scanner, ILogger<WorklogCommand> logger, ApplicationContext db) : base(printer)
         {
             _logger = logger;
             _db = db;
+            _scanner = scanner;
         }
 
         public override void Execute()
