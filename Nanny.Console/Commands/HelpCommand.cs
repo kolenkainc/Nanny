@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Nanny.Console.IO;
 
@@ -30,20 +31,17 @@ namespace Nanny.Console.Commands
             CommandList list = _serviceProvider.GetRequiredService<CommandList>();
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Commands:");
-            list.Sort((first, second) =>
-                second.Key().ToString().Length.CompareTo(
-                    first.Key().ToString().Length
-                )
-            );
+            var maxLengthCommand = list.OrderByDescending(c => c.Key().ToString().Length)
+                .First();
             foreach (var command in list)
             {
                 if (command is HelpCommand)
                 {
-                    sb.AppendLine($"{prefix(list[0], command)} # describe available commands");
+                    sb.AppendLine($"{prefix(maxLengthCommand, command)} # describe available commands");
                 }
                 else
                 {
-                    sb.AppendLine($"{prefix(list[0], command)} # {command.HelpMessage()}");
+                    sb.AppendLine($"{prefix(maxLengthCommand, command)} # {command.HelpMessage()}");
                 }
             }
             return sb.ToString();
