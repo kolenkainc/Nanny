@@ -1,0 +1,38 @@
+codecov:
+  token: 5d667ea4-2288-43a2-9f66-a4eccc6fcf1d
+  require_ci_to_pass: yes
+
+coverage:
+  precision: 2
+  round: down
+  range: "30...70"
+  status:
+    project:
+      default: false
+      data:
+        target: 30%
+        threshold: 10%
+        paths:
+          - "Nanny.Console"
+
+ignore:
+  - ".gitignore"  # ignore folders and all its contents
+  - "Packaging"  # ignore folders and all its contents
+  - "Makefile"  # ignore folders and all its contents
+  - "README.md"  # ignore folders and all its contents
+  - "**/*.sln"         # glob accepted
+  - "**/*.csproj"         # glob accepted
+  - "**/*.DotSettigs"         # glob accepted
+
+parsers:
+  gcov:
+    branch_detection:
+      conditional: yes
+      loop: yes
+      method: no
+      macro: no
+
+comment:
+  layout: "reach,diff,flags,tree"
+  behavior: default
+  require_changes: no
