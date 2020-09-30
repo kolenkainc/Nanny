@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Nanny.Console.Commands;
+using Nanny.Console.Commands.ExternalServices;
 using Nanny.Console.Database;
 using Nanny.Console.IO;
 using Xunit;
@@ -30,7 +31,8 @@ namespace Nanny.Console.Tests.Unit.Commands
                 _printerMock.Object,
                 scannerMock.Object,
                 new Mock<ILogger<WorklogCommand>>().Object,
-                new Mock<ApplicationContext>().Object
+                new Mock<ApplicationContext>().Object,
+                new Mock<IJira>().Object
             );
 
             var serviceProvider = new Mock<IServiceProvider>();
