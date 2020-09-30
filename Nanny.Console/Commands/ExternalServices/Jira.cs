@@ -32,9 +32,9 @@ namespace Nanny.Console.Commands.ExternalServices
 
         private void ReadConfiguration()
         {
-            var domain = _db.Properties.First(p => p.Key == "JiraDomain").Value;
-            var token = _db.Properties.First(p => p.Key == "JiraToken").Value;
-            var email = _db.Properties.First(p => p.Key == "JiraEmail").Value;
+            var domain = _db.Properties.First(p => p.Key == Constants.JiraDomain).Value;
+            var token = _db.Properties.First(p => p.Key == Constants.JiraToken).Value;
+            var email = _db.Properties.First(p => p.Key == Constants.JiraLogin).Value;
             _httpClient.BaseAddress = new Uri(domain);
             _httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue(

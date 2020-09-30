@@ -11,9 +11,8 @@ namespace Nanny.Console.Commands
         private Key _key = new Key("worklog", "w");
         private ILogger<WorklogCommand> _logger;
         private ApplicationContext _db;
-        private string JIRA_DOMAIN = "JiraDomain";
-        private string JIRA_TOKEN = "JiraToken";
         private Scenario _jiraDomainScenario;
+        private Scenario _jiraLoginScenario;
         private Scenario _jiraTokenScenario;
         private IScanner _scanner;
         private IJira _jira;
@@ -29,8 +28,9 @@ namespace Nanny.Console.Commands
             _logger = logger;
             _db = db;
             _scanner = scanner;
-            _jiraDomainScenario = new MissedKeyScenario(db, new Property{ Key = JIRA_DOMAIN }, printer, scanner, logger);
-            _jiraTokenScenario = new MissedKeyScenario(db, new Property{ Key = JIRA_TOKEN }, printer, scanner, logger);
+            _jiraDomainScenario = new MissedKeyScenario(db, new Property{ Key = Constants.JiraDomain }, printer, scanner, logger);
+            _jiraLoginScenario = new MissedKeyScenario(db, new Property{ Key = Constants.JiraLogin }, printer, scanner, logger);
+            _jiraTokenScenario = new MissedKeyScenario(db, new Property{ Key = Constants.JiraToken }, printer, scanner, logger);
             _jira = jira;
         }
 
