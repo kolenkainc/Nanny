@@ -42,8 +42,7 @@ namespace Nanny.Console.Commands.ExternalServices
             }";
         private string _template3 = 
             @"{
-                'timeSpentSeconds': " + _worklogPlaceholder + @",
-                'started': '2020-09-30T01:26:06.145+0000'
+                'timeSpentSeconds': " + _worklogPlaceholder + @"
             }";
 
         private string _worklog;
@@ -56,15 +55,15 @@ namespace Nanny.Console.Commands.ExternalServices
         {
             return _template3
                 .Replace("\'", "\"")
-                .Replace(_worklogPlaceholder, ParseHuman(_worklog).TotalMilliseconds.ToString(CultureInfo.InvariantCulture));
+                .Replace(_worklogPlaceholder, ParseHuman().TotalSeconds.ToString(CultureInfo.InvariantCulture));
         }
         
-        public TimeSpan ParseHuman(string dateTime)
+        public TimeSpan ParseHuman()
         {
             TimeSpan ts = TimeSpan.Zero;
             string currentString = "";
             string currentNumber = "";
-            foreach (char ch in dateTime+' ')
+            foreach (char ch in _worklog + ' ')
             {
                 currentString += ch;
                 if (Regex.IsMatch(currentString, @"^(days(\d|\s)|day(\d|\s)|d(\d|\s))", RegexOptions.IgnoreCase)) { ts = ts.Add(TimeSpan.FromDays(int.Parse(currentNumber))); currentString = ""; currentNumber = ""; }

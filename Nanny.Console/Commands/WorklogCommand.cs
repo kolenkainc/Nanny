@@ -10,7 +10,6 @@ namespace Nanny.Console.Commands
     {
         private Key _key = new Key("worklog", "w");
         private ILogger<WorklogCommand> _logger;
-        private ApplicationContext _db;
         private Scenario _jiraDomainScenario;
         private Scenario _jiraLoginScenario;
         private Scenario _jiraTokenScenario;
@@ -26,7 +25,6 @@ namespace Nanny.Console.Commands
         ) : base(printer)
         {
             _logger = logger;
-            _db = db;
             _scanner = scanner;
             _jiraDomainScenario = new MissedKeyScenario(db, new Property{ Key = Constants.JiraDomain }, printer, scanner, logger);
             _jiraLoginScenario = new MissedKeyScenario(db, new Property{ Key = Constants.JiraLogin }, printer, scanner, logger);
