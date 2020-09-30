@@ -24,7 +24,7 @@ namespace Nanny.Console.Commands.ExternalServices
             try
             {
                 ReadConfiguration();
-                _httpClient.PostAsync(
+                var response = _httpClient.PostAsync(
                     $"/rest/api/3/issue/{issue}/worklog",
                     new StringContent(
                         new WorklogRequest(worklog).ToJson(),

@@ -1,4 +1,6 @@
+using System.IO;
 using Microsoft.EntityFrameworkCore;
+using Nanny.Console.IO;
 
 namespace Nanny.Console.Database
 {
@@ -6,7 +8,8 @@ namespace Nanny.Console.Database
     {
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.UseSqlite("Data Source=nanny.db");
+            var fs = new FileSystem();
+            builder.UseSqlite($"Data Source={Path.Combine(fs.WorkingDirectory(), "nanny.db")}");
         }
 
         public virtual DbSet<Property> Properties { get; set; }
