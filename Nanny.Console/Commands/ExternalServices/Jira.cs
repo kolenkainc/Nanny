@@ -2,15 +2,17 @@ using System;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Mime;
+using System.Text;
 using Nanny.Console.Database;
 
 namespace Nanny.Console.Commands.ExternalServices
 {
     public class Jira : IJira
     {
-        private HttpClient _httpClient;
         private ApplicationContext _db;
-        
+        private HttpClient _httpClient;
+
         public Jira(HttpClient httpClient, ApplicationContext db)
         {
             _httpClient = httpClient;
@@ -22,7 +24,12 @@ namespace Nanny.Console.Commands.ExternalServices
             try
             {
                 ReadConfiguration();
-                _httpClient.PostAsync($"/rest/api/3/issue/{issue}/worklog", new StringContent(""));
+                _httpClient.PostAsync(
+                    $"/rest/api/3/issue/{issue}/worklog",
+                    new StringContent(
+                        new WorklogRequest(worklog).ToJson(),
+                        Encoding.UTF8,
+                        MediaTypeNames.Application.Json));
             }
             catch (Exception e)
             {
@@ -39,7 +46,7 @@ namespace Nanny.Console.Commands.ExternalServices
             _httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue(
                     "Basic", Convert.ToBase64String(
-                        System.Text.Encoding.ASCII.GetBytes(
+                        Encoding.ASCII.GetBytes(
                             $"{email}:{token}")));
         }
     }
