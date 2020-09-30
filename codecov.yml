@@ -19,6 +19,7 @@ ignore:
   - ".gitignore"  # ignore folders and all its contents
   - "Packaging"  # ignore folders and all its contents
   - "Nanny.Console/Migrations"  # ignore folders and all its contents
+  - ".vscode"  # ignore folders and all its contents
   - "Makefile"  # ignore folders and all its contents
   - "README.md"  # ignore folders and all its contents
   - "**/*.sln"         # glob accepted
