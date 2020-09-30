@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Extensions.Logging;
 using Nanny.Console.Commands.ExternalServices;
 using Nanny.Console.Commands.Scenarios;
@@ -37,6 +38,7 @@ namespace Nanny.Console.Commands
         public override void Execute()
         {
             _jiraDomainScenario.Execute();
+            _jiraLoginScenario.Execute();
             _jiraTokenScenario.Execute();
             _logger.LogInformation("Ask to task number");
             Printer.Print("Type task number");
@@ -53,7 +55,9 @@ namespace Nanny.Console.Commands
             }
             catch (JiraException e)
             {
-                _logger.LogError("There is exception from Jira: {0e}. Worklog not added to Jira", e);
+                _logger.LogError("There is exception from Jira");
+                _logger.LogError(e.Message);
+                _logger.LogError("Worklog not added to Jira");
             }
         }
 

@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Text;
+using Microsoft.Extensions.Logging;
 using Nanny.Console.Database;
 
 namespace Nanny.Console.Commands.ExternalServices
@@ -12,11 +13,13 @@ namespace Nanny.Console.Commands.ExternalServices
     {
         private ApplicationContext _db;
         private HttpClient _httpClient;
+        private ILogger<IJira> _logger;
 
-        public Jira(HttpClient httpClient, ApplicationContext db)
+        public Jira(HttpClient httpClient, ApplicationContext db, ILogger<IJira> logger)
         {
             _httpClient = httpClient;
             _db = db;
+            _logger = logger;
         }
 
         public void Worklog(string issue, string worklog)
@@ -24,12 +27,20 @@ namespace Nanny.Console.Commands.ExternalServices
             try
             {
                 ReadConfiguration();
+                var json = new WorklogRequest(worklog).ToJson();
+                _logger.LogInformation("Send the following json:");
+                _logger.LogInformation(json);
                 var response = _httpClient.PostAsync(
                     $"/rest/api/3/issue/{issue}/worklog",
                     new StringContent(
-                        new WorklogRequest(worklog).ToJson(),
+                        json,
                         Encoding.UTF8,
                         MediaTypeNames.Application.Json));
+                if (!response.Result.IsSuccessStatusCode)
+                {
+                    var errorMessage = response.Result.Content.ReadAsStringAsync().Result;
+                    throw new JiraException(errorMessage);
+                }
             }
             catch (Exception e)
             {

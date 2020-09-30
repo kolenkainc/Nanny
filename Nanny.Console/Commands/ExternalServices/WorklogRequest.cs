@@ -1,10 +1,13 @@
+using System;
+
 namespace Nanny.Console.Commands.ExternalServices
 {
     public class WorklogRequest
     {
-        private string template1 = 
+        private static string _worklogPlaceholder = "WORKLOG";
+        private string _template1 = 
             @"{
-                'timeSpentSeconds': {0},
+                'timeSpentSeconds': " + _worklogPlaceholder + @",
                 'visibility': {
                     'type': 'group',
                     'value': 'jira-developers'
@@ -26,13 +29,18 @@ namespace Nanny.Console.Commands.ExternalServices
                 },
                 'started': '2020-09-30T01:26:06.145+0000'
             }";
-        private string template2 = 
+        private string _template2 = 
             @"{
-                'timeSpentSeconds': {0},
+                'timeSpentSeconds': " + _worklogPlaceholder + @",
                 'visibility': {
                     'type': 'group',
                     'value': 'jira-developers'
                 },
+                'started': '2020-09-30T01:26:06.145+0000'
+            }";
+        private string _template3 = 
+            @"{
+                'timeSpentSeconds': " + _worklogPlaceholder + @",
                 'started': '2020-09-30T01:26:06.145+0000'
             }";
 
@@ -44,7 +52,9 @@ namespace Nanny.Console.Commands.ExternalServices
 
         public string ToJson()
         {
-            return string.Format(template2, _worklog);
+            return _template3
+                .Replace("\'", "\"")
+                .Replace(_worklogPlaceholder, _worklog);
         }
     }
 }
