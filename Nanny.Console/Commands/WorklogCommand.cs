@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Extensions.Logging;
 using Nanny.Console.Commands.ExternalServices;
 using Nanny.Console.Commands.Scenarios;
