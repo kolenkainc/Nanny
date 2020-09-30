@@ -34,7 +34,6 @@ namespace Nanny.Console.Commands
             Printer.Print("Type task number");
             var task = _scanner.Scan();
             _logger.LogInformation($"Task number is: {task}");
-            
         }
 
         public override Key Key()
