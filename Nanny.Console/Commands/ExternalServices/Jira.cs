@@ -28,14 +28,15 @@ namespace Nanny.Console.Commands.ExternalServices
             {
                 ReadConfiguration();
                 var json = new WorklogRequest(worklog).ToJson();
-                _logger.LogInformation("Send the following json:");
-                _logger.LogInformation(json);
+                _logger.LogDebug("Send the following json:");
+                _logger.LogDebug(json);
                 var response = _httpClient.PostAsync(
                     $"/rest/api/3/issue/{issue}/worklog",
                     new StringContent(
                         json,
                         Encoding.UTF8,
                         MediaTypeNames.Application.Json));
+                _logger.LogDebug("Response was: {0}", response.Result.Content.ReadAsStringAsync().Result);
                 if (!response.Result.IsSuccessStatusCode)
                 {
                     var errorMessage = response.Result.Content.ReadAsStringAsync().Result;
