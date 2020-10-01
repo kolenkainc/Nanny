@@ -26,7 +26,7 @@ namespace Nanny.Console.Tests.Unit.Commands.ExternalServices
         }
         
         [Fact]
-        public void SendWorklog_InvokeHttpClientWithParameters()
+        public void SendWorklog_WithRightParameters_InvokeHttpClientWithParameters()
         {
             // Arrange
             var mockDb = new Mock<ApplicationContext>();
@@ -46,25 +46,25 @@ namespace Nanny.Console.Tests.Unit.Commands.ExternalServices
                     ItExpr.IsAny<HttpRequestMessage>(),
                     ItExpr.IsAny<CancellationToken>()
                 )
-                .ReturnsAsync(new HttpResponseMessage()
+                .ReturnsAsync(new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent("[{'id':1,'value':'1'}]"),
+                    Content = new StringContent("[{'message':'OK'}]"),
                 })
                 .Verifiable();
- 
+
             // use real http client with mocked handler here
             var httpClient = new HttpClient(handlerMock.Object)
             {
                 BaseAddress = new Uri("http://test.test/"),
             };
             var expectedUri = new Uri("http://test.test/rest/api/3/issue/task/worklog");
-            
+
             var jira = new Jira(httpClient, mockDb.Object, _loggerMock.Object);
-            
+
             // Act
             jira.Worklog("task", "1d");
-            
+
             // Assert
             handlerMock.Protected().Verify(
                 "SendAsync",
@@ -79,6 +79,45 @@ namespace Nanny.Console.Tests.Unit.Commands.ExternalServices
                 ),
                 ItExpr.IsAny<CancellationToken>()
             );
+        }
+
+        [Fact]
+        public void SendWorklog_WithWrongParameters_HttpClientShouldReturnError()
+        {
+            // Arrange
+            var mockDb = new Mock<ApplicationContext>();
+            var props = new List<Property>
+            {
+                new Property {Key = "JiraDomain", Value = "http://test.test"},
+                new Property {Key = "JiraLogin", Value = "test"},
+                new Property {Key = "JiraToken", Value = "test"}
+            };
+            mockDb.Setup(m => m.Properties).ReturnsDbSet(props);
+
+            var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+            handlerMock
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>()
+                )
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Content = new StringContent("[{'message':'Error'}]"),
+                })
+                .Verifiable();
+            // use real http client with mocked handler here
+            var httpClient = new HttpClient(handlerMock.Object)
+            {
+                BaseAddress = new Uri("http://test.test/"),
+            };
+
+            var jira = new Jira(httpClient, mockDb.Object, _loggerMock.Object);
+
+            // Act and Assert
+            Assert.Throws<JiraException>(() => jira.Worklog("task", "1d"));
         }
     }
 }
