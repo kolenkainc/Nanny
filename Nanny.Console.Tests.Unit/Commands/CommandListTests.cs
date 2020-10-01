@@ -66,5 +66,18 @@ namespace Nanny.Console.Tests.Unit.Commands
             // Assert
             Assert.IsType<HelpCommand>(result);
         }
+        
+        [Fact]
+        public void FindCommand_ViaEmptyInput_ShouldFindHelpCommand()
+        {
+            // Arrange
+            var userInput = new string[0];
+            
+            // Act
+            var result = _commandList.Find(userInput);
+
+            // Assert
+            Assert.IsType<HelpCommand>(result);
+        }
     }
 }
