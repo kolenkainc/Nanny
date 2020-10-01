@@ -32,6 +32,7 @@ namespace Nanny.Console
                 Program program = new Program();
                 _logger.Information("Getting started...");
                 program.Run(args);
+                _logger.Information("Graceful shutdown...");
             }
             catch (Exception ex)    
             {

@@ -81,7 +81,6 @@ jobs:
 
 stages:
   - name: Build
-    if: type != pull_request
   - name: Tag
     if: branch = master AND type != pull_request
   - name: Release

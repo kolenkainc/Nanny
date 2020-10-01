@@ -1,9 +1,13 @@
 # Nanny
 
-Nanny - is a command line interface for creation Github Pull Requests for projects with multiple release versions.
+Nanny - is a command line interface for projects with multiple release versions.
 
-![Master status](https://api.travis-ci.com/kolenkainc/nanny.svg?branch=master "master status")
-[![codecov](https://codecov.io/gh/kolenkainc/nanny/branch/master/graph/badge.svg?token=32CKSF3ZS6)](codecov)
+[![Master status](https://api.travis-ci.com/kolenkainc/nanny.svg?branch=master "master status")](https://travis-ci.com/github/kolenkainc/Nanny/branches)
+[![codecov](https://codecov.io/gh/kolenkainc/nanny/branch/master/graph/badge.svg?token=32CKSF3ZS6)](https://codecov.io/gh/kolenkainc/Nanny)
+
+## Key features:
+  - creating worklog in Jira
+  - creating Github Pull Requests for multiple versions
 
 ## Installation
 ### Linux

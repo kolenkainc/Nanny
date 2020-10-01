@@ -29,6 +29,7 @@ namespace Nanny.Console.Tests.Unit.Commands
             Mock<ILogger<LoginCommand>> loggerMock = new Mock<ILogger<LoginCommand>>();
             _scannerMock.SetupSequence(scanner => scanner.Scan())
                 .Returns("test_jira_domain")
+                .Returns("test_jira_login")
                 .Returns("test_jira_token")
                 .Returns("test_github_token");
             LoginCommand command = new LoginCommand(mockDb.Object, loggerMock.Object, _printerMock.Object, _scannerMock.Object);
@@ -38,9 +39,10 @@ namespace Nanny.Console.Tests.Unit.Commands
             
             // Assert
             _printerMock.Verify(m => m.Print("Please, pass JiraDomain"), Times.Once);
+            _printerMock.Verify(m => m.Print("Please, pass JiraLogin"), Times.Once);
             _printerMock.Verify(m => m.Print("Please, pass JiraToken"), Times.Once);
             _printerMock.Verify(m => m.Print("Please, pass GithubToken"), Times.Once);
-            _scannerMock.Verify(m => m.Scan(), Times.Exactly(3));
+            _scannerMock.Verify(m => m.Scan(), Times.Exactly(4));
         }
 
         [Fact]
