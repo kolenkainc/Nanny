@@ -19,25 +19,25 @@ namespace Nanny.Console.Tests.Unit.Commands.ExternalServices
     public class JiraTests
     {
         private Mock<ILogger<IJira>> _loggerMock;
+        private Mock<ApplicationContext> _dbMock;
 
         public JiraTests()
         {
             _loggerMock = new Mock<ILogger<IJira>>();
-        }
-        
-        [Fact]
-        public void SendWorklog_WithRightParameters_InvokeHttpClientWithParameters()
-        {
-            // Arrange
-            var mockDb = new Mock<ApplicationContext>();
+            _dbMock = new Mock<ApplicationContext>();
             var props = new List<Property>
             {
                 new Property {Key = "JiraDomain", Value = "http://test.test"},
                 new Property {Key = "JiraLogin", Value = "test"},
                 new Property {Key = "JiraToken", Value = "test"}
             };
-            mockDb.Setup(m => m.Properties).ReturnsDbSet(props);
-
+            _dbMock.Setup(m => m.Properties).ReturnsDbSet(props);
+        }
+        
+        [Fact]
+        public void SendWorklog_WithRightParameters_InvokeHttpClientWithParameters()
+        {
+            // Arrange
             var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             handlerMock
                 .Protected()
@@ -60,7 +60,7 @@ namespace Nanny.Console.Tests.Unit.Commands.ExternalServices
             };
             var expectedUri = new Uri("http://test.test/rest/api/3/issue/task/worklog");
 
-            var jira = new Jira(httpClient, mockDb.Object, _loggerMock.Object);
+            var jira = new Jira(httpClient, _dbMock.Object, _loggerMock.Object);
 
             // Act
             jira.Worklog("task", "1d");
@@ -85,15 +85,6 @@ namespace Nanny.Console.Tests.Unit.Commands.ExternalServices
         public void SendWorklog_WithWrongParameters_HttpClientShouldReturnError()
         {
             // Arrange
-            var mockDb = new Mock<ApplicationContext>();
-            var props = new List<Property>
-            {
-                new Property {Key = "JiraDomain", Value = "http://test.test"},
-                new Property {Key = "JiraLogin", Value = "test"},
-                new Property {Key = "JiraToken", Value = "test"}
-            };
-            mockDb.Setup(m => m.Properties).ReturnsDbSet(props);
-
             var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             handlerMock
                 .Protected()
@@ -114,7 +105,7 @@ namespace Nanny.Console.Tests.Unit.Commands.ExternalServices
                 BaseAddress = new Uri("http://test.test/"),
             };
 
-            var jira = new Jira(httpClient, mockDb.Object, _loggerMock.Object);
+            var jira = new Jira(httpClient, _dbMock.Object, _loggerMock.Object);
 
             // Act and Assert
             Assert.Throws<JiraException>(() => jira.Worklog("task", "1d"));
