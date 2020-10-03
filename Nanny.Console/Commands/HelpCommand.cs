@@ -1,7 +1,9 @@
 using System;
+using System.IO;
 using System.Text;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Nanny.Console.IO;
 
 namespace Nanny.Console.Commands
@@ -10,14 +12,19 @@ namespace Nanny.Console.Commands
     {
         private Key _key = new Key("help", "h");
         private IServiceProvider _serviceProvider;
+        private ILogger<HelpCommand> _logger;
 
-        public HelpCommand(IServiceProvider serviceProvider, IPrinter printer) : base(printer)
+        public HelpCommand(IServiceProvider serviceProvider, IPrinter printer, ILogger<HelpCommand> logger) : base(printer)
         {
             _serviceProvider = serviceProvider;
+            _logger = logger;
         }
 
         public override void Execute()
         {
+            var fs = new FileSystem();
+            _logger.LogInformation($"Current dir: {fs.CurrentDirectory().FullName}");
+            _logger.LogInformation($"Installation dir: {fs.InstallationDirectory().FullName}");
             Printer.Print(HelpMessage());
         }
 
