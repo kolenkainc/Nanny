@@ -12,18 +12,19 @@ namespace Nanny.Console.Commands
     {
         private Key _key = new Key("help", "h");
         private IServiceProvider _serviceProvider;
+        private ILogger<HelpCommand> _logger;
 
-        public HelpCommand(IServiceProvider serviceProvider, IPrinter printer) : base(printer)
+        public HelpCommand(IServiceProvider serviceProvider, IPrinter printer, ILogger<HelpCommand> logger) : base(printer)
         {
             _serviceProvider = serviceProvider;
+            _logger = logger;
         }
 
         public override void Execute()
         {
-            var logger = _serviceProvider.GetService<ILogger<HelpCommand>>();
             var fs = new FileSystem();
-            logger.LogInformation($"Current dir: {fs.CurrentDirectory().FullName}");
-            logger.LogInformation($"Installation dir: {fs.InstallationDirectory().FullName}");
+            _logger.LogInformation($"Current dir: {fs.CurrentDirectory().FullName}");
+            _logger.LogInformation($"Installation dir: {fs.InstallationDirectory().FullName}");
             Printer.Print(HelpMessage());
         }
 

@@ -20,7 +20,7 @@ namespace Nanny.Console.Tests.Unit.Commands
             _printerMock = new Mock<IPrinter>();
             var scannerMock = new Mock<IScanner>();
             var fakeVersionCommand = new VersionCommand(_printerMock.Object);
-            var fakeHelpCommand = new HelpCommand(null, _printerMock.Object);
+            var fakeHelpCommand = new HelpCommand(null, _printerMock.Object, new Mock<ILogger<HelpCommand>>().Object);
             var fakeLoginCommand = new LoginCommand(
                 new Mock<ApplicationContext>().Object,
                 new Mock<ILogger<LoginCommand>>().Object,
@@ -52,7 +52,7 @@ namespace Nanny.Console.Tests.Unit.Commands
                 .Setup(x => x.GetService(typeof(IServiceScopeFactory)))
                 .Returns(serviceScopeFactory.Object);
 
-            _command = new HelpCommand(serviceProvider.Object, _printerMock.Object);
+            _command = new HelpCommand(serviceProvider.Object, _printerMock.Object, new Mock<ILogger<HelpCommand>>().Object);
         }
         
         [Fact]
