@@ -25,7 +25,7 @@ namespace Nanny.Console
         {
             var fs = new FileSystem();
             _configuration = new ConfigurationBuilder()
-                .SetBasePath(fs.WorkingDirectory())
+                .SetBasePath(fs.InstallationDirectory().FullName)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile(
                     $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json",

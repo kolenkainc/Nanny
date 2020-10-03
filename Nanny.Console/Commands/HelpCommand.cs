@@ -1,7 +1,9 @@
 using System;
+using System.IO;
 using System.Text;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Nanny.Console.IO;
 
 namespace Nanny.Console.Commands
@@ -18,6 +20,10 @@ namespace Nanny.Console.Commands
 
         public override void Execute()
         {
+            var logger = _serviceProvider.GetService<ILogger<HelpCommand>>();
+            var fs = new FileSystem();
+            logger.LogInformation($"Current dir: {fs.CurrentDirectory().FullName}");
+            logger.LogInformation($"Installation dir: {fs.InstallationDirectory().FullName}");
             Printer.Print(HelpMessage());
         }
 

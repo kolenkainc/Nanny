@@ -5,9 +5,19 @@ namespace Nanny.Console.IO
 {
     public class FileSystem
     {
-        public string WorkingDirectory()
+        public DirectoryInfo InstallationDirectory()
         {
-            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var candidate = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            if (candidate == null)
+            {
+                throw new IOException("Cannot get installation directory");
+            }
+            return new DirectoryInfo(candidate);
+        }
+
+        public DirectoryInfo CurrentDirectory()
+        {
+            return new DirectoryInfo(Directory.GetCurrentDirectory());
         }
     }
 }
