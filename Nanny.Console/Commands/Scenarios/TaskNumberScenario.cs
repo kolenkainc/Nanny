@@ -40,21 +40,19 @@ namespace Nanny.Console.Commands.Scenarios
         public string AutoDetection()
         {
             ProcessStartInfo start = new ProcessStartInfo();
-            // start.FileName = "git rev-parse --abbrev-ref HEAD";
             start.FileName = "git";
             start.Arguments = "rev-parse --abbrev-ref HEAD";
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
-            string result;
             using (Process process = Process.Start(start))
             {
                 using (StreamReader reader = process.StandardOutput)
                 {
-                    result = reader.ReadToEnd();
-                    System.Console.WriteLine(result);
+                    var result = reader.ReadToEnd();
+                    _logger.LogInformation($"Task number \"{result}\" was detected automatically");
+                    return result;
                 }
             }
-            return result;
         }
 
         public string ManualDetection()
@@ -73,8 +71,10 @@ namespace Nanny.Console.Commands.Scenarios
             {
                 foreach (var directoryInfo in info.GetDirectories())
                 {
+                    _logger.LogDebug($"Scan {directoryInfo.Name}");
                     if (directoryInfo.Extension == ".git")
                     {
+                        _logger.LogInformation("Git directory structure was detected");
                         return true;
                     }
                 }
@@ -82,6 +82,7 @@ namespace Nanny.Console.Commands.Scenarios
                 info = info.Parent;
             }
 
+            _logger.LogInformation("Current directory is not git repository");
             return false;
         }
     }
