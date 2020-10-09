@@ -24,7 +24,7 @@ namespace Nanny.Console.Tests.Unit.Commands
                 new VersionCommand(printerMock.Object),
                 new HelpCommand(serviceProviderMock.Object, printerMock.Object, new Mock<ILogger<HelpCommand>>().Object),
                 new LoginCommand(dbMock.Object, new Mock<ILogger<LoginCommand>>().Object, printerMock.Object, scannerMock.Object),
-                new WorklogCommand(printerMock.Object, scannerMock.Object, new Mock<ILogger<WorklogCommand>>().Object, dbMock.Object, jiraMock.Object) 
+                new WorklogCommand(printerMock.Object, scannerMock.Object, new Mock<ILogger<WorklogCommand>>().Object, dbMock.Object, jiraMock.Object, new Mock<Git>().Object) 
             );
         }
         

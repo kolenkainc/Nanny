@@ -17,6 +17,7 @@ namespace Nanny.Console.Tests.Unit.Commands
         private Mock<IScanner> _scannerMock;
         private Mock<ILogger<WorklogCommand>> _loggerMock;
         private Mock<IJira> _jiraMock;
+        private Mock<IGit> _gitMock = new Mock<IGit>();
 
         public WorklogCommandTests()
         {
@@ -43,7 +44,8 @@ namespace Nanny.Console.Tests.Unit.Commands
                 _scannerMock.Object,
                 _loggerMock.Object,
                 mockDb.Object,
-                _jiraMock.Object
+                _jiraMock.Object,
+                _gitMock.Object
             );
             
             // Act
@@ -79,7 +81,8 @@ namespace Nanny.Console.Tests.Unit.Commands
                 _scannerMock.Object,
                 _loggerMock.Object,
                 mockDb.Object,
-                _jiraMock.Object
+                _jiraMock.Object,
+                _gitMock.Object
             );
             
             // Act

@@ -32,7 +32,8 @@ namespace Nanny.Console.Tests.Unit.Commands
                 scannerMock.Object,
                 new Mock<ILogger<WorklogCommand>>().Object,
                 new Mock<ApplicationContext>().Object,
-                new Mock<IJira>().Object
+                new Mock<IJira>().Object,
+                new Mock<IGit>().Object
             );
 
             var serviceProvider = new Mock<IServiceProvider>();

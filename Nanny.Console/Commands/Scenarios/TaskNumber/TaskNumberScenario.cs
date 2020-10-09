@@ -1,6 +1,5 @@
-using System.Diagnostics;
-using System.IO;
 using Microsoft.Extensions.Logging;
+using Nanny.Console.Commands.ExternalServices;
 using Nanny.Console.IO;
 
 namespace Nanny.Console.Commands.Scenarios.TaskNumber
@@ -11,13 +10,15 @@ namespace Nanny.Console.Commands.Scenarios.TaskNumber
         private ILogger _logger;
         private IPrinter _printer;
         private IScanner _scanner;
+        private IGit _git;
         
-        public TaskNumberScenario(FileSystem fs, ILogger logger, IPrinter printer, IScanner scanner)
+        public TaskNumberScenario(FileSystem fs, ILogger logger, IPrinter printer, IScanner scanner, IGit git)
         {
             _fileSystem = fs;
             _logger = logger;
             _printer = printer;
             _scanner = scanner;
+            _git = git;
         }
 
         public override void Execute()
@@ -39,20 +40,7 @@ namespace Nanny.Console.Commands.Scenarios.TaskNumber
 
         public string AutoDetection()
         {
-            ProcessStartInfo start = new ProcessStartInfo();
-            start.FileName = "git";
-            start.Arguments = "rev-parse --abbrev-ref HEAD";
-            start.UseShellExecute = false;
-            start.RedirectStandardOutput = true;
-            using (Process process = Process.Start(start))
-            {
-                using (StreamReader reader = process.StandardOutput)
-                {
-                    var result = reader.ReadToEnd();
-                    _logger.LogInformation($"Task number \"{result}\" was detected automatically");
-                    return result;
-                }
-            }
+            return _git.TaskNumber();
         }
 
         public string ManualDetection()
