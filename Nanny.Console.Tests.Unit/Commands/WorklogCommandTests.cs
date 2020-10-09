@@ -46,7 +46,8 @@ namespace Nanny.Console.Tests.Unit.Commands
                 _loggerMock.Object,
                 mockDb.Object,
                 _jiraMock.Object,
-                _gitMock.Object
+                _gitMock.Object,
+                new Mock<IFileSystem>().Object
             );
             
             // Act
@@ -80,7 +81,8 @@ namespace Nanny.Console.Tests.Unit.Commands
                 _loggerMock.Object,
                 mockDb.Object,
                 _jiraMock.Object,
-                _gitMock.Object
+                _gitMock.Object,
+                new Mock<IFileSystem>().Object
             );
             
             // Act

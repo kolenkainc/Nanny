@@ -6,13 +6,13 @@ namespace Nanny.Console.Commands.Scenarios.TaskNumber
 {
     public class TaskNumberScenario : Scenario
     {
-        private FileSystem _fileSystem;
+        private IFileSystem _fileSystem;
         private ILogger _logger;
         private IPrinter _printer;
         private IScanner _scanner;
         private IGit _git;
         
-        public TaskNumberScenario(FileSystem fs, ILogger logger, IPrinter printer, IScanner scanner, IGit git)
+        public TaskNumberScenario(IFileSystem fs, ILogger logger, IPrinter printer, IScanner scanner, IGit git)
         {
             _fileSystem = fs;
             _logger = logger;

@@ -24,7 +24,8 @@ namespace Nanny.Console.Commands
             ILogger<WorklogCommand> logger,
             ApplicationContext db,
             IJira jira,
-            IGit git
+            IGit git,
+            IFileSystem fs
         ) : base(printer)
         {
             _logger = logger;
@@ -32,7 +33,6 @@ namespace Nanny.Console.Commands
             _jiraDomainScenario = new MissedKeyScenario(db, new Property{ Key = Constants.JiraDomain }, printer, scanner, logger);
             _jiraLoginScenario = new MissedKeyScenario(db, new Property{ Key = Constants.JiraLogin }, printer, scanner, logger);
             _jiraTokenScenario = new MissedKeyScenario(db, new Property{ Key = Constants.JiraToken }, printer, scanner, logger);
-            var fs = new FileSystem();
             _taskNumberScenario = new TaskNumberScenario(fs, logger, printer, _scanner, git);
             _jira = jira;
         }

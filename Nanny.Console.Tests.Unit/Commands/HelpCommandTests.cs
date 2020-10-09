@@ -20,7 +20,7 @@ namespace Nanny.Console.Tests.Unit.Commands
             _printerMock = new Mock<IPrinter>();
             var scannerMock = new Mock<IScanner>();
             var fakeVersionCommand = new VersionCommand(_printerMock.Object);
-            var fakeHelpCommand = new HelpCommand(null, _printerMock.Object, new Mock<ILogger<HelpCommand>>().Object);
+            var fakeHelpCommand = new HelpCommand(null, _printerMock.Object, new Mock<ILogger<HelpCommand>>().Object, new Mock<IFileSystem>().Object);
             var fakeLoginCommand = new LoginCommand(
                 new Mock<ApplicationContext>().Object,
                 new Mock<ILogger<LoginCommand>>().Object,
@@ -33,7 +33,8 @@ namespace Nanny.Console.Tests.Unit.Commands
                 new Mock<ILogger<WorklogCommand>>().Object,
                 new Mock<ApplicationContext>().Object,
                 new Mock<IJira>().Object,
-                new Mock<IGit>().Object
+                new Mock<IGit>().Object,
+                new Mock<IFileSystem>().Object
             );
 
             var serviceProvider = new Mock<IServiceProvider>();
@@ -53,7 +54,7 @@ namespace Nanny.Console.Tests.Unit.Commands
                 .Setup(x => x.GetService(typeof(IServiceScopeFactory)))
                 .Returns(serviceScopeFactory.Object);
 
-            _command = new HelpCommand(serviceProvider.Object, _printerMock.Object, new Mock<ILogger<HelpCommand>>().Object);
+            _command = new HelpCommand(serviceProvider.Object, _printerMock.Object, new Mock<ILogger<HelpCommand>>().Object, new Mock<IFileSystem>().Object);
         }
         
         [Fact]
