@@ -58,6 +58,7 @@ namespace Nanny.Console
                     services.AddTransient<CommandList>();
                     services.AddTransient<IPrinter, ConsolePrinter>();
                     services.AddTransient<IScanner, ConsoleScanner>();
+                    services.AddTransient<IGit, Git>();
                     services.AddHttpClient<IJira, Jira>()
                         .AddPolicyHandler(GetRetryPolicy());
                     services.AddDbContext<ApplicationContext>();

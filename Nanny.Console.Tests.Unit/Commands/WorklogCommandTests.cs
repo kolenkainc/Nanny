@@ -17,6 +17,7 @@ namespace Nanny.Console.Tests.Unit.Commands
         private Mock<IScanner> _scannerMock;
         private Mock<ILogger<WorklogCommand>> _loggerMock;
         private Mock<IJira> _jiraMock;
+        private Mock<IGit> _gitMock;
 
         public WorklogCommandTests()
         {
@@ -24,6 +25,7 @@ namespace Nanny.Console.Tests.Unit.Commands
             _scannerMock = new Mock<IScanner>();
             _loggerMock = new Mock<ILogger<WorklogCommand>>();
             _jiraMock = new Mock<IJira>();
+            _gitMock = new Mock<IGit>();
         }
 
         [Fact]
@@ -43,7 +45,8 @@ namespace Nanny.Console.Tests.Unit.Commands
                 _scannerMock.Object,
                 _loggerMock.Object,
                 mockDb.Object,
-                _jiraMock.Object
+                _jiraMock.Object,
+                _gitMock.Object
             );
             
             // Act
@@ -53,9 +56,6 @@ namespace Nanny.Console.Tests.Unit.Commands
             _printerMock.Verify(m => m.Print("Please, pass JiraDomain"), Times.Once);
             _printerMock.Verify(m => m.Print("Please, pass JiraLogin"), Times.Once);
             _printerMock.Verify(m => m.Print("Please, pass JiraToken"), Times.Once);
-            _printerMock.Verify(m => m.Print("Type task number"), Times.Once);
-            _printerMock.Verify(m => m.Print("Type worklog for this task"), Times.Once);
-            _scannerMock.Verify(m => m.Scan(), Times.Exactly(5));
         }
 
         [Fact]
@@ -79,16 +79,17 @@ namespace Nanny.Console.Tests.Unit.Commands
                 _scannerMock.Object,
                 _loggerMock.Object,
                 mockDb.Object,
-                _jiraMock.Object
+                _jiraMock.Object,
+                _gitMock.Object
             );
             
             // Act
             command.Execute();
             
             // Assert
-            _printerMock.Verify(m => m.Print("Type task number"), Times.Once);
+            // _printerMock.Verify(m => m.Print("Type task number"), Times.Once);
             _printerMock.Verify(m => m.Print("Type worklog for this task"), Times.Once);
-            _scannerMock.Verify(m => m.Scan(), Times.Exactly(2));
+            _scannerMock.Verify(m => m.Scan(), Times.Exactly(1));
         }
     }
 }
