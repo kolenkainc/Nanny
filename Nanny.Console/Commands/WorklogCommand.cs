@@ -13,6 +13,7 @@ namespace Nanny.Console.Commands
         private Scenario _jiraDomainScenario;
         private Scenario _jiraLoginScenario;
         private Scenario _jiraTokenScenario;
+        private TaskNumberScenario _taskNumberScenario;
         private IScanner _scanner;
         private IJira _jira;
         
@@ -29,6 +30,8 @@ namespace Nanny.Console.Commands
             _jiraDomainScenario = new MissedKeyScenario(db, new Property{ Key = Constants.JiraDomain }, printer, scanner, logger);
             _jiraLoginScenario = new MissedKeyScenario(db, new Property{ Key = Constants.JiraLogin }, printer, scanner, logger);
             _jiraTokenScenario = new MissedKeyScenario(db, new Property{ Key = Constants.JiraToken }, printer, scanner, logger);
+            var fs = new FileSystem();
+            _taskNumberScenario = new TaskNumberScenario(fs, logger, printer, _scanner);
             _jira = jira;
         }
 
@@ -37,10 +40,7 @@ namespace Nanny.Console.Commands
             _jiraDomainScenario.Execute();
             _jiraLoginScenario.Execute();
             _jiraTokenScenario.Execute();
-            _logger.LogInformation("Ask to task number");
-            Printer.Print("Type task number");
-            var task = _scanner.Scan();
-            _logger.LogInformation($"Task number is: {task}");
+            var task = _taskNumberScenario.ExecuteScenario();
             _logger.LogInformation("Ask to worklog");
             Printer.Print("Type worklog for this task");
             var worklog = _scanner.Scan();
