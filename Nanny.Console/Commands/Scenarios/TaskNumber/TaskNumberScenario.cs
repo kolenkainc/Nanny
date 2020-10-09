@@ -3,7 +3,7 @@ using System.IO;
 using Microsoft.Extensions.Logging;
 using Nanny.Console.IO;
 
-namespace Nanny.Console.Commands.Scenarios
+namespace Nanny.Console.Commands.Scenarios.TaskNumber
 {
     public class TaskNumberScenario : Scenario
     {
@@ -27,7 +27,7 @@ namespace Nanny.Console.Commands.Scenarios
 
         public string ExecuteScenario()
         {
-            if (isGitFileSystem())
+            if (_fileSystem.IsGitRepository(_fileSystem.CurrentDirectory(), _logger))
             {
                 return AutoDetection();
             }
@@ -62,28 +62,6 @@ namespace Nanny.Console.Commands.Scenarios
             var task = _scanner.Scan();
             _logger.LogInformation($"Task number is: {task}");
             return task;
-        }
-
-        private bool isGitFileSystem()
-        {
-            var info = _fileSystem.CurrentDirectory();
-            while (info != null && info.Parent != null && info.Parent.Exists)
-            {
-                foreach (var directoryInfo in info.GetDirectories())
-                {
-                    _logger.LogDebug($"Scan {directoryInfo.Name}");
-                    if (directoryInfo.Extension == ".git")
-                    {
-                        _logger.LogInformation("Git directory structure was detected");
-                        return true;
-                    }
-                }
-
-                info = info.Parent;
-            }
-
-            _logger.LogInformation("Current directory is not git repository");
-            return false;
         }
     }
 }
