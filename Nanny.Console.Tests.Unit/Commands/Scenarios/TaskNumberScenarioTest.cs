@@ -12,12 +12,12 @@ namespace Nanny.Console.Tests.Unit.Commands.Scenarios
     {
         private Mock<ILogger> _loggerMock = new Mock<ILogger>();
         private Mock<IPrinter> _printerMock = new Mock<IPrinter>();
-        private Mock<IScanner> _scannerMock = new Mock<IScanner>();
 
         [Fact]
         public void CurrentDirectoryIsGitRepo_AutoDetection()
         {
             // Arrange
+            var scannerMock = new Mock<IScanner>();
             var fsMock = new Mock<FileSystem>();
             var gitMock = new Mock<IGit>();
             fsMock
@@ -29,7 +29,7 @@ namespace Nanny.Console.Tests.Unit.Commands.Scenarios
             gitMock
                 .Setup(git => git.TaskNumber())
                 .Returns("Test-Task");
-            var scenario = new TaskNumberScenario(fsMock.Object, _loggerMock.Object, _printerMock.Object, _scannerMock.Object, gitMock.Object);
+            var scenario = new TaskNumberScenario(fsMock.Object, _loggerMock.Object, _printerMock.Object, scannerMock.Object, gitMock.Object);
 
             // Act and Assert
             Assert.Equal("Test-Task", scenario.ExecuteScenario());
@@ -38,7 +38,23 @@ namespace Nanny.Console.Tests.Unit.Commands.Scenarios
         [Fact]
         public void CurrentDirectoryIsNotGitRepo_ManualDetection()
         {
-            
+            // Arrange
+            var scannerMock = new Mock<IScanner>();
+            scannerMock
+                .Setup(s => s.Scan())
+                .Returns("Test-Task");
+            var fsMock = new Mock<FileSystem>();
+            var gitMock = new Mock<IGit>();
+            fsMock
+                .Setup(fs => fs.CurrentDirectory())
+                .Returns(new DirectoryInfo("test"));
+            fsMock
+                .Setup(fs => fs.IsGitRepository(It.IsAny<DirectoryInfo>(), _loggerMock.Object))
+                .Returns(false);
+            var scenario = new TaskNumberScenario(fsMock.Object, _loggerMock.Object, _printerMock.Object, scannerMock.Object, gitMock.Object);
+
+            // Act and Assert
+            Assert.Equal("Test-Task", scenario.ExecuteScenario());
         }
         
     }
