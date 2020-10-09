@@ -26,13 +26,13 @@ namespace Nanny.Console.Tests.Unit.Commands.Scenarios
             fsMock
                 .Setup(fs => fs.IsGitRepository(It.IsAny<DirectoryInfo>(), _loggerMock.Object))
                 .Returns(true);
+            gitMock
+                .Setup(git => git.TaskNumber())
+                .Returns("Test-Task");
             var scenario = new TaskNumberScenario(fsMock.Object, _loggerMock.Object, _printerMock.Object, _scannerMock.Object, gitMock.Object);
-            
-            // Act
-            var result = scenario.ExecuteScenario();
-            
-            // Assert
 
+            // Act and Assert
+            Assert.Equal("Test-Task", scenario.ExecuteScenario());
         }
 
         [Fact]

@@ -16,12 +16,12 @@ namespace Nanny.Console.IO
             return new DirectoryInfo(candidate);
         }
 
-        public DirectoryInfo CurrentDirectory()
+        public virtual DirectoryInfo CurrentDirectory()
         {
             return new DirectoryInfo(Directory.GetCurrentDirectory());
         }
 
-        public bool IsGitRepository(DirectoryInfo info, ILogger _logger)
+        public virtual bool IsGitRepository(DirectoryInfo info, ILogger _logger)
         {
             while (info != null && info.Parent != null && info.Parent.Exists)
             {
