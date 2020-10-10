@@ -89,9 +89,9 @@ namespace Nanny.Console.Tests.Unit.Commands
             command.Execute();
             
             // Assert
-            // _printerMock.Verify(m => m.Print("Type task number"), Times.Once);
+            _printerMock.Verify(m => m.Print("Type task number"), Times.Once);
             _printerMock.Verify(m => m.Print("Type worklog for this task"), Times.Once);
-            _scannerMock.Verify(m => m.Scan(), Times.Exactly(1));
+            _scannerMock.Verify(m => m.Scan(), Times.Exactly(2));
         }
     }
 }
