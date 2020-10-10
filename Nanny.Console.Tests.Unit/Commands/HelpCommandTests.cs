@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -19,8 +20,16 @@ namespace Nanny.Console.Tests.Unit.Commands
         {
             _printerMock = new Mock<IPrinter>();
             var scannerMock = new Mock<IScanner>();
+            // var fsMock = new Mock<IFileSystem>(new Mock<ILogger>().Object);
+            var fsMock = new Mock<IFileSystem>();
+            fsMock
+                .Setup(fs => fs.CurrentDirectory())
+                .Returns(new DirectoryInfo("."));
+            fsMock
+                .Setup(fs => fs.InstallationDirectory())
+                .Returns(new DirectoryInfo("."));
             var fakeVersionCommand = new VersionCommand(_printerMock.Object);
-            var fakeHelpCommand = new HelpCommand(null, _printerMock.Object, new Mock<ILogger<HelpCommand>>().Object, new Mock<IFileSystem>().Object);
+            var fakeHelpCommand = new HelpCommand(null, _printerMock.Object, new Mock<ILogger<HelpCommand>>().Object, fsMock.Object);
             var fakeLoginCommand = new LoginCommand(
                 new Mock<ApplicationContext>().Object,
                 new Mock<ILogger<LoginCommand>>().Object,
@@ -34,7 +43,7 @@ namespace Nanny.Console.Tests.Unit.Commands
                 new Mock<ApplicationContext>().Object,
                 new Mock<IJira>().Object,
                 new Mock<IGit>().Object,
-                new Mock<IFileSystem>().Object
+                fsMock.Object
             );
 
             var serviceProvider = new Mock<IServiceProvider>();
@@ -54,7 +63,7 @@ namespace Nanny.Console.Tests.Unit.Commands
                 .Setup(x => x.GetService(typeof(IServiceScopeFactory)))
                 .Returns(serviceScopeFactory.Object);
 
-            _command = new HelpCommand(serviceProvider.Object, _printerMock.Object, new Mock<ILogger<HelpCommand>>().Object, new Mock<IFileSystem>().Object);
+            _command = new HelpCommand(serviceProvider.Object, _printerMock.Object, new Mock<ILogger<HelpCommand>>().Object, fsMock.Object);
         }
         
         [Fact]
