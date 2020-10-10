@@ -46,7 +46,8 @@ namespace Nanny.Console.Tests.Unit.Commands
                 _loggerMock.Object,
                 mockDb.Object,
                 _jiraMock.Object,
-                _gitMock.Object
+                _gitMock.Object,
+                new Mock<IFileSystem>().Object
             );
             
             // Act
@@ -80,16 +81,17 @@ namespace Nanny.Console.Tests.Unit.Commands
                 _loggerMock.Object,
                 mockDb.Object,
                 _jiraMock.Object,
-                _gitMock.Object
+                _gitMock.Object,
+                new Mock<IFileSystem>().Object
             );
             
             // Act
             command.Execute();
             
             // Assert
-            // _printerMock.Verify(m => m.Print("Type task number"), Times.Once);
+            _printerMock.Verify(m => m.Print("Type task number"), Times.Once);
             _printerMock.Verify(m => m.Print("Type worklog for this task"), Times.Once);
-            _scannerMock.Verify(m => m.Scan(), Times.Exactly(1));
+            _scannerMock.Verify(m => m.Scan(), Times.Exactly(2));
         }
     }
 }

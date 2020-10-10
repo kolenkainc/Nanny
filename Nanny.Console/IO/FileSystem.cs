@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Nanny.Console.IO
 {
-    public class FileSystem
+    public class FileSystem : IFileSystem
     {
         public DirectoryInfo InstallationDirectory()
         {
